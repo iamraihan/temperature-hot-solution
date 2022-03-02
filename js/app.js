@@ -4,7 +4,13 @@ const weatherTemperture = () => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`
     fetch(url)
         .then(res => res.json())
-        .then(data => displayTemperature(data))
+        .then(data => {
+            if (data.cod === '400') {
+                document.getElementById('city').innerText = 'No City Found'
+            } else if (data.cod === 200) {
+                displayTemperature(data)
+            }
+        })
 }
 const setInnerTxt = (id, text) => {
     document.getElementById(id).innerText = text
